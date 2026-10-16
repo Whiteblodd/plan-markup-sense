@@ -121,6 +121,8 @@ textarea{width:100%;min-height:2.4rem;font:inherit;font-size:13px;padding:6px 8p
       <button type="button" data-v="патио или сад">патио или садом</button>
       <button type="button" data-v="по-разному">по-разному</button></div></div>
     <textarea id="general-note" placeholder="Если правило другое, опишите его здесь"></textarea>
+    <label for="general-zones" id="gq-zones" style="display:block;margin:16px 0 6px">Типичные зоны ваших квартир: на какие зоны вы делите квартиру и какие помещения входят в каждую</label>
+    <textarea id="general-zones" placeholder="Например: мастер-зона (спальня, гардеробная, санузел), детская зона, гостевая зона (гостиная, кухня, гостевой санузел), служебная зона (постирочная, кладовая)"></textarea>
   </section>
 
   <details class="box">
@@ -445,6 +447,7 @@ function render(){
 function paintGeneral(){
   document.querySelectorAll("[data-general]").forEach(seg => seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", S.general[seg.dataset.general] === b.dataset.v)));
   $("#general-note").value = S.general.заметка || "";
+  $("#general-zones").value = S.general.типичные_зоны || "";
   $("#who-name").value = S.who.name || ""; $("#who-role").value = S.who.role || "";
 }
 function projects(){
@@ -559,6 +562,7 @@ document.addEventListener("change", e => {
   if (t.id === "import-file" && t.files[0]){ importFile(t.files[0]); t.value = ""; return }
   if (t.id === "who-name" || t.id === "who-role"){ S.who[t.id === "who-name" ? "name" : "role"] = t.value; persist(); return }
   if (t.id === "general-note"){ S.general.заметка = t.value; persist(); return }
+  if (t.id === "general-zones"){ S.general.типичные_зоны = t.value; persist(); return }
   if (t.dataset.room && t.dataset.lot){ const l = lotById(t.dataset.lot), a = ans(t.dataset.lot), kind = t.dataset.room, i = +t.dataset.i;
     roomAns(a, kind, i, roomList(l, kind)[i])[t.dataset.rk] = t.dataset.text ? t.value : num(t.value); a.updated = new Date().toISOString(); persist(); return }
   if (!t.dataset.lot || !t.dataset.k) return;
